@@ -13,8 +13,10 @@ export default function PolygonField(props) {
 		if (props.formData && props.formData.length > 0) {
 			const rows = props.formData.map((point, index) => ({
 				id: index, // Unique id for each row
-				...point,
+				x: point.x.value,
+				y: point.y.value,
 			}));
+
 			const columns = Object.keys(props.formData[0]);
 			setColumnHeaderDatas(columns);
 			setRowDatas(rows);
@@ -52,8 +54,11 @@ export default function PolygonField(props) {
 	function onClickAdd() {
 		// add new row (use setRowDatas function)
 		const newId = rowDatas.length + 1;
-		setRowDatas([...rowDatas, { id: newId, x: 0, y: 0 }]);
-		props.onChange([...props.formData, { x: 0, y: 0 }]);
+		const newValue = { value: 0 };
+		const newPoint = { x: newValue, y: newValue };
+
+		setRowDatas([...rowDatas, { id: newId, ...newPoint }]);
+		props.onChange([...props.formData, newPoint]);
 	}
 
 	function onClickDelete() {
@@ -99,7 +104,7 @@ export default function PolygonField(props) {
 								if (index === newValue.id) {
 									for (const key in newValue) {
 										if (key !== 'id') {
-											row[key] = Number(newValue[key]);
+											row[key].value = Number(newValue[key]);
 										}
 									}
 									return row;

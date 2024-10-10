@@ -15,9 +15,9 @@ export default function Lcom_FiexedField(props) {
 				{
 					id: 0,
 					name: props.formData.name,
-					Nz: props.formData.f.Nz,
-					Mx: props.formData.f.Mx,
-					My: props.formData.f.My,
+					Nz: props.formData.f.Nz.value,
+					Mx: props.formData.f.Mx.value,
+					My: props.formData.f.My.value,
 				},
 			];
 			setRowDatas(rows);
@@ -52,8 +52,11 @@ export default function Lcom_FiexedField(props) {
 	function onClickAdd() {
 		// add new row (use setRowDatas function)
 		const newId = rowDatas.length;
-		setRowDatas([...rowDatas, { id: newId, name: `uls${newId + 1}`, Nz: 0, Mx: 0, My: 0 }]);
-		props.onChange([...props.formData, { name: `uls${newId + 1}`, f: { Nz: 0, Mx: 0, My: 0 } }]);
+		const newValue = { value: 0 };
+		const newData = { name: `uls${newId + 1}`, Nz: newValue, Mx: newValue, My: newValue };
+
+		setRowDatas([...rowDatas, { id: newId, ...newData }]);
+		props.onChange([...props.formData, newData]);
 	}
 
 	function onClickDelete() {
@@ -92,7 +95,7 @@ export default function Lcom_FiexedField(props) {
 								if (key === 'name') {
 									row[key] = newValue[key];
 								} else {
-									row.f[key] = Number(newValue[key]);
+									row.f[key].value = Number(newValue[key]);
 								}
 							}
 						}

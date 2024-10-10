@@ -14,9 +14,9 @@ export default function LcomField(props) {
 			const rows = props.formData.map((item, index) => ({
 				id: index, // Unique id for each row
 				name: item.name,
-				Nz: item.f.Nz,
-				Mx: item.f.Mx,
-				My: item.f.My,
+				Nz: item.f.Nz.value,
+				Mx: item.f.Mx.value,
+				My: item.f.My.value,
 			}));
 			setRowDatas(rows);
 			props.formData.length < 6
@@ -53,8 +53,11 @@ export default function LcomField(props) {
 	function onClickAdd() {
 		// add new row (use setRowDatas function)
 		const newId = rowDatas.length;
-		setRowDatas([...rowDatas, { id: newId, name: `uls${newId + 1}`, Nz: 0, Mx: 0, My: 0 }]);
-		props.onChange([...props.formData, { name: `uls${newId + 1}`, f: { Nz: 0, Mx: 0, My: 0 } }]);
+		const newValue = { value: 0 };
+		const newData = { name: `uls${newId + 1}`, Nz: newValue, Mx: newValue, My: newValue };
+
+		setRowDatas([...rowDatas, { id: newId, ...newData }]);
+		props.onChange([...props.formData, newData]);
 	}
 
 	function onClickDelete() {
@@ -103,7 +106,7 @@ export default function LcomField(props) {
 											if (key === 'name') {
 												row[key] = newValue[key];
 											} else {
-												row.f[key] = Number(newValue[key]);
+												row.f[key].value = Number(newValue[key]);
 											}
 										}
 									}

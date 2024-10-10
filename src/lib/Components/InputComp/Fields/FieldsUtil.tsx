@@ -6,13 +6,14 @@ import { ReactElement } from 'react';
 import { NumberWidget, OptionWidget, StringWidget } from '../Widgets';
 
 export interface SchemaForm {
-	[key: string]: SchemaForm | string | number;
+	[key: string]: SchemaForm | string | number | { value: number };
 }
 
 export interface SchemaProperty {
 	title: string;
 	type: 'string' | 'number' | 'object';
 	description?: string;
+	default: string | number | { value: number; unit: string };
 	enum?: string[];
 	anyOf?: SchemaProperty[];
 	unit?: string;
